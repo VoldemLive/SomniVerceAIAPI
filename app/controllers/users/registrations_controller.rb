@@ -1,6 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
-
+  skip_before_action :authenticate_user!, only: [:create]
   private
 
   def respond_with(resource, _opts = {})
@@ -10,7 +10,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    render json: { message: 'Signed up sucessfully.' }, status: :created
+    token = encode_token(@user)
+    render json: { message: 'Signed up sucessfully.', user: @user, token: token}, status: :created
   end
 
   def register_failed resource

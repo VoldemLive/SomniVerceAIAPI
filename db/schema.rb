@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_26_022819) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_26_022819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,22 +37,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_022819) do
 
   create_table "interpretations", force: :cascade do |t|
     t.integer "dream_id", null: false
-    t.datetime "date", default: -> { "CURRENT_TIMESTAMP" }
-    t.text "description", default: ""
-    t.integer "quality", default: 5
-    t.boolean "deleted", default: false
-    t.boolean "complete", default: false
-    t.integer "hours", default: 8
-    t.boolean "lucid", default: false
+    t.string "lang", null: false
+    t.string "meaning", default: ""
     t.string "tags", default: [], array: true
-    t.string "lang", default: ""
+    t.string "questions", default: [], array: true
+    t.text "jungian_perspective", default: ""
+    t.text "freudian_perspective", default: ""
+    t.boolean "loaded", default: false
+    t.boolean "initiated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["date"], name: "index_interpretations_on_date"
-    t.index ["deleted"], name: "index_interpretations_on_deleted"
-    t.index ["dream_id"], name: "index_interpretations_on_dream_id"
-    t.index ["lucid"], name: "index_interpretations_on_lucid"
-    t.index ["quality"], name: "index_interpretations_on_quality"
   end
 
   create_table "users", force: :cascade do |t|
@@ -60,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_022819) do
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.datetime "redream_created_at"
+    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
